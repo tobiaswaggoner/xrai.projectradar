@@ -1,0 +1,35 @@
+#!/bin/bash
+#
+# HOOK: sub-agent-stop
+# ACTION: Copies the full session transcript to an archive folder.
+#
+
+# --- Configuration ---
+# Set the path to your Claude sessions directory and your desired archive directory.
+# These are the default locations.
+SESSIONS_DIR="$HOME/.claude/sessions"
+ARCHIVE_DIR="./claude_transcripts_archive"
+
+# --- Script ---
+# Create the archive directory if it doesn't exist.
+mkdir -p "$ARCHIVE_DIR"
+
+# Find the most recently modified transcript file in the sessions directory.
+# The transcript is a JSONL file.
+TRANSCRIPT_FILE=$(ls -t "$SESSIONS_DIR"/*.jsonl 2>/dev/null | head -n 1)
+
+# Check if a transcript file was found.
+if [ -z "$TRANSCRIPT_FILE" ]; then
+  echo "Claude transcript hook: No transcript file found." >&2
+  exit 1
+fi
+
+# Create a timestamp for the archived file's name.
+TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+BASENAME=$(basename "$TRANSCRIPT_FILE" .jsonl)
+ARCHIVE_FILE_PATH="$ARCHIVE_DIR/${BASENAME}_${TIMESTAMP}.jsonl"
+
+# Copy the transcript to the archive directory.
+cp "$TRANSCRIPT_FILE" "$ARCHIVE_FILE_PATH"
+
+echo "Claude transcript hook: Transcript archived to $ARCHIVE_FILE_PATH" >&2
