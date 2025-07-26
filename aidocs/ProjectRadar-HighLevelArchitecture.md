@@ -1,6 +1,6 @@
 # **High Level Architecture Specification**
 
-Version: 1.1  
+Version: 1.2 
 Date: July 26, 2025
 
 ## **1\. Overview**
@@ -25,6 +25,9 @@ The foundation of the system is managed via Docker Compose for local development
   1. **Event Store Persistence:** It will house the append-only log of all domain events.  
   2. **Read Model Persistence:** It will store the denormalized projections of data, optimized for fast queries by the frontend.  
 * **Message Bus (RabbitMQ):** RabbitMQ will act as the central message broker, facilitating asynchronous communication between all microservices. It decouples services, allowing them to evolve independently and ensuring system resilience.
+* **Secrets Management:** All sensitive values (Postgres password, RabbitMQ credentials, Auth0 client secret, LLM keys) are injected via **Docker Secrets**.  The local `docker‑compose.override.yml` mounts secret files from `./dev‑secrets/*`.
+* **Developer Orchestration:** The solution is boot‑strapped with **dotnet Aspire** (preview).  Running `dotnet aspire run` starts every service with live‑reload and aggregated dashboards.
+
 
 ### **2.2. Application Layer**
 
@@ -69,6 +72,10 @@ This is a custom .NET library, not a standalone service. It provides a programma
 #### **2.3.2. Read Models**
 
 These are simple, denormalized tables in PostgreSQL designed specifically to back UI views. For example, a backlog\_view table might contain opportunities in the backlog, with a priority column for sorting.
+
+### 2.4 Observability
+* **Tracing & Metrics:** Every .NET service is instrumented with **OpenTelemetry** (OTEL 1.7).  The OTLP exporter streams traces & metrics to a local **Grafana stack** (Prometheus + Tempo + Grafana OSS dashboards).
+* **Structured Logging:** Serilog continues to be the canonical logger.  Primary sink =  OTLP.  **Optional** secondary sink =  Elasticsearch → Kibana (for devs preferring the classical ELK workflow).  The ELK containers are disabled by default and can be enabled via `COMPOSE_PROFILES=elk`.
 
 ## **3\. Communication & Data Flow**
 
@@ -137,6 +144,14 @@ CREATE TABLE backlog\_view (
     last\_updated TIMESTAMPTZ  
 );
 
+
+## 5.3 Event Retention
+Events are stored **indefinitely** until a retention/anonymisation strategy is defined. GDPR compliance remains an open item.
+
 ## **6\. Security**
 
 Authentication will be handled via an external Identity Provider (IdP) using the OAuth 2.0 / OIDC standard. The Blazor client will be responsible for the authentication flow (e.g., redirecting to the IdP). Backend APIs will be secured and will validate JWT bearer tokens on every incoming request.
+
+* **IdP:** **Auth0** SaaS tenant.  Access‑tokens validated server‑side with openid‑configuration discovery.
+* **Blazor WASM CSRF:** All API calls use the **Bearer JWT** header; cookies carry only non‑sensitive refresh tokens and are set `SameSite=None; Secure`.  No anti‑forgery hidden‐form tokens are required.
+

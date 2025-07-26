@@ -1,6 +1,6 @@
 # **Project Description**
 
-Version: 1.1  
+Version: 1.2  
 Date: July 26, 2025
 
 ## **1\. Project Vision**
@@ -111,6 +111,16 @@ The user interface is divided into three main areas: **Inbox**, **Backlog**, and
 
 * **Logging:** Structured logging will be implemented throughout using **Serilog**.  
 * **Audit Trails & Replayability:** The event sourcing architecture and messaging will be used to ensure complete and traceable audit trails for all state changes. This allows for the complete reconstruction of the system state at any point in time (Replayability).
+* **OpenTelemetry traces & metrics** exported to Grafana Tempo/Prometheus.
+* **Serilog sinks:** OTLP (primary) and optional Elasticsearch (`COMPOSE_PROFILES=elk`).
+
+### 3.7 Security Notes
+* **Authentication:** OAuth 2.0/OIDC via **Auth0**.
+* **CSRF:** Handled by using only bearer‑token auth; cookies flagged `SameSite=None; Secure`.
+* **Secrets:** Managed as Docker Secrets (no plain‑text env files committed).
+
+### 3.8 Fuzzy Deduplication
+A future service will use a **MinHash + Jaccard Similarity** algorithm with configurable 3‑ to 5‑gram shingles to detect near‑duplicates.  Implementation initially in Python (`datasketch`), callable from .NET via gRPC.
 
 ## **4\. Process & Quality Assurance**
 
@@ -161,3 +171,6 @@ The user interface is divided into three main areas: **Inbox**, **Backlog**, and
   * Final definition of the code coverage targets.  
   * Selection of specific metrics for static code analysis.  
   * Detailed concept for the automated deployment of the containers.
+* **Event retention policy** (see Architecture §5.3).
+* **ELK vs OTEL‑only observability decision**.
+* **Container hardening baseline (CIS) & SBOM publishing.**
