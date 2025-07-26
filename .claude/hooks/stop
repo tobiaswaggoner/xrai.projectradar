@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# HOOK: stop
+# ACTION: Extracts token usage from the final transcript and logs it.
+#
+
+# --- Configuration ---
+SESSIONS_DIR="$HOME/.claude/sessions"
+TOKEN_LOG_FILE="$HOME/claude_token_usage.log"
+
+# --- Script ---
+# Find the most recently modified transcript file.
+TRANSCRIPT_FILE=$(ls -t "$SESSIONS_DIR"/*.jsonl 2>/dev/null | head -n 1)
+
+if [ -z "$TRANSCRIPT_FILE" ]; then
+  echo "Claude token hook: No transcript file found." >&2
+  exit 1
+fi
+
+# The final entry in the transcript contains the usage stats.
+# We use `jq` to extract the 'usage' object from the last line of the file.
+TOKEN_USAGE=$(tail -n 1 "$TRANSCRIPT_FILE" | jq -c '.usage // .token_usage // null')
+
+# Check if token usage data was found.
+if [ "$TOKEN_USAGE" = "null" ] || [ -z "$TOKEN_USAGE" ]; then
+    echo "Claude token hook: No token usage data found in final transcript entry." >&2
+    exit 0 # Exit gracefully, as not all 'stop' events may have usage data.
+fi
+
+# Format the output for the log file.
+TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
+LOG_ENTRY="[$TIMESTAMP] - File: $(basename "$TRANSCRIPT_FILE") - Usage: $TOKEN_USAGE"
+
+# Append the formatted entry to the log file.
+echo "$LOG_ENTRY" >> "$TOKEN_LOG_FILE"
+
+echo "Claude token hook: Token usage logged to $TOKEN_LOG_FILE" >&2
