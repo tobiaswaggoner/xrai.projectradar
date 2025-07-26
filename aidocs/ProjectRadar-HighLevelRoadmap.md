@@ -1,6 +1,6 @@
 # **High Level Implementation Roadmap**
 
-Version: 1.1  
+Version: 1.2  
 Date: July 26, 2025
 
 ## **Guiding Principles**
@@ -28,12 +28,19 @@ This roadmap outlines the path for implementing "Project Radar". It is founded o
   * Measure and report code coverage.  
 * **Quality Gates:** Configure the CI pipeline to fail if any of the quality checks (tests, coverage thresholds, linting rules) do not pass.  
 * **Developer Tooling:** Implement the pre-commit hook to run cloc and track code metrics automatically.
+* **dotnet Aspire Dev Host:** Add `./infrastructure/aspire-apphost/` launching all services for in‑IDE F5 debugging.
+* **Docker Secrets wiring:** Update `docker‑compose.yml` to mount secrets files; document helper script `./scripts/create‑secret.sh`.
+* **Security & Quality Gates:**
+  * Integrate **Trivy** GitHub Action for container‑image & dependency (SBOM) scanning — *severity ≥ HIGH* fails the build.
+  * Dependabot enabled for NuGet & npm.
 
 **Definition of Done:**
 
 * A developer can clone the repository, run a single command (docker-compose up) to start the infrastructure, and make a small code change on a feature branch.  
 * Pushing the change triggers the CI pipeline, which runs through all defined quality checks successfully.  
 * The main branch is protected. Merging is only possible via a pull request from a feature branch. A secondary review is not required, allowing the single developer to merge their own PRs once all automated checks have passed.
+* `dotnet aspire run` starts all services & infra, Grafana opens at <http://localhost:3000> with traces visible.
+* All GitHub Actions jobs (build, tests, static analysis, Trivy scan) pass on `main`.
 
 ## **Phase 1: UI/UX Prototyping & Data Discovery**
 
@@ -52,6 +59,11 @@ This roadmap outlines the path for implementing "Project Radar". It is founded o
 * The prototype's source code is committed to a separate /prototype directory in the repository. It is explicitly understood to be **throwaway code**.
 
 ## **Phase 2: Core Persistence \- The Custom Event Store**
+
+## Phase 2a — **Event‑Store Spike**  *(new sub‑phase before Phase 2)*
+Time‑box: 3 dev‑days.  Success criteria: **Replay 10 k events in ≤ 5 s on local Postgres** and write benchmark notes.  Decide if snapshotting/partitioning is required.
+
+## Phase 2b - Implementation
 
 **Primary Goal:** To implement the foundational persistence layer. This is a strategic exception to the vertical slice approach, as this component is a core dependency for all subsequent slices.
 
@@ -122,3 +134,11 @@ This roadmap outlines the path for implementing "Project Radar". It is founded o
 **Definition of Done:**
 
 * The mock ingestion from Phase 3 is replaced by a powerful ingestion point that automates data extraction and assessment, with all results visible and usable in the UI.
+
+## Open Items (rolling)
+| # | Topic | Target Phase |
+|---|-------|--------------|
+| 1 | GDPR‑compliant deletion/anonymisation mechanism | TBD |
+| 2 | Decide if ELK remains optional or is dropped in favour of OTEL only | Phase 0 review |
+| 3 | Fuzzy de‑duplication algorithm PoC (MinHash + Jaccard) | Phase 5.3 |
+| 4 | Container image hardening baseline (CIS) | Phase 0+ |
