@@ -19,10 +19,18 @@ This roadmap outlines the path for implementing "Project Radar". It is founded o
 **Key Activities:**
 
 * **Repository Setup:** Configure the GitHub repository with protected branches (e.g., main) to enforce quality gates.  
-* **Infrastructure as Code:** Create a docker-compose.yml file to define and run the required infrastructure services (PostgreSQL, RabbitMQ) for a consistent local development environment.  
+* **Infrastructure as Code:** Create a docker-compose.yml file to define and run the required infrastructure services (PostgreSQL, RabbitMQ) for a consistent local development environment. 
+* **Create initial solution structure:**
+  * ./src/xrai.projectradar.application/xrai.projectradar.application.sln
+  * ./src/xrai.projectradar.application/xrai.projectradar.backend/xrai.projectradar.backend.csproj (Empty ASP.net application)
+  * ./src/xrai.projectradar.application/tests/xrai.projectradar.backend.tests/xrai.projectradar.backend.tests.csproj (NUnit, NSubstitute)
+  * ./src/xrai.projectradar.application/xrai.projectradar.AppHost/xrai.projectradar.AppHost.csproj (Aspire)
+  * within xrai.projectradar.application.sln: Create a solution folder "tests". Move test project in here
+  * within xrai.projectradar.application.sln: Create a solution folder "dev". Move Aspire project in here
+
 * **CI/CD Pipeline:** Implement the initial GitHub Actions workflow. This workflow will:  
-  * Build a simple "Hello World" .NET solution.  
-  * Run initial (empty) unit tests.  
+  * Add a simple dummy unit test to the test library  
+  * Run initial unit test.  
   * Integrate static code analysis tools (for cyclomatic complexity, etc.).  
   * Integrate a linter.  
   * Measure and report code coverage.  
