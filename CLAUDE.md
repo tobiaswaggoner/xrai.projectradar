@@ -47,7 +47,7 @@ The project now has a working .NET 8 solution structure with established build/t
 - **Test**: `dotnet test` (runs all NUnit tests with NSubstitute mocking)
 - **dotnet Aspire**: Run `dotnet aspire run` to start all services with live-reload
 - **Docker Compose**: Single-command setup for development environment (planned)
-- **Secrets Management**: Docker Secrets (no plain-text env files)
+- **Secrets Management**: Docker Secrets for PostgreSQL, configuration files for RabbitMQ (no plain-text env files)
 
 ## User Workflow
 
@@ -81,7 +81,7 @@ The UI consists of three main areas:
 
 - **Authentication**: OAuth 2.0/OIDC via Auth0
 - **CSRF Protection**: Bearer token auth only, secure cookies
-- **Secrets**: Managed via Docker Secrets
+- **Secrets**: PostgreSQL via Docker Secrets, RabbitMQ via configuration files
 - **Token Validation**: JWT validation on all API requests
 
 ## Event Sourcing Specifics

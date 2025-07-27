@@ -125,7 +125,7 @@ The project uses **dotnet Aspire** for orchestrating the development environment
 
 - **Authentication**: OAuth 2.0/OIDC via Auth0
 - **Data Protection**: No sensitive data in logs or commits
-- **Container Security**: Docker Secrets for credentials
+- **Container Security**: Docker Secrets and configuration files for credentials
 - **CSRF Protection**: Bearer token authentication
 - **Audit Trail**: Complete event history for compliance
 

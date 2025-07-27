@@ -12,7 +12,13 @@
       "Bash(dotnet sln add:*)",
       "Bash(dotnet sln:*)",
       "Bash(dotnet test)",
-      "Bash(dotnet build)"
+      "Bash(dotnet build)",
+      "Bash(git pull:*)",
+      "Bash(docker-compose logs:*)",
+      "Bash(docker exec:*)",
+      "Bash(curl:*)",
+      "Bash(psql:*)",
+      "Bash(docker-compose:*)"
     ],
     "deny": []
   }

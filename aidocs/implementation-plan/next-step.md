@@ -1,119 +1,111 @@
-# Next Step: Iteration 1 - Solution Structure & Project Setup
+# Next Step: Iteration 2 - Infrastructure & Docker Setup
 
 ## Detailed Implementation Plan
 
-### 1. Create Main Solution Structure
+### 1. Create Main Docker Compose Configuration
 
-#### 1.1 Create Solution Directory and File
-- [ ] Create directory structure: `./src/xrai.projectradar.application/`
-- [ ] Initialize main solution file: `xrai.projectradar.application.sln`
+#### 1.1 Create Primary docker-compose.yml
+- [ ] Create docker-compose.yml in project root directory
+- [ ] Configure PostgreSQL service with proper version and configuration
+- [ ] Configure RabbitMQ service with management plugin enabled
+- [ ] Set up service networking and port mappings
+- [ ] Configure volume mounts for data persistence
 
-### 2. Create Backend ASP.NET Core Project
+#### 1.2 Configure Service Dependencies
+- [ ] Define service startup order and dependencies
+- [ ] Configure health checks for PostgreSQL and RabbitMQ
+- [ ] Set up proper service discovery between containers
+- [ ] Configure restart policies for production readiness
 
-#### 2.1 Initialize Backend Project
-- [ ] Create directory: `./src/xrai.projectradar.application/xrai.projectradar.backend/`
-- [ ] Initialize empty ASP.NET Core Web API project using `dotnet new webapi`
-- [ ] Configure project to target .NET 8
-- [ ] Add project reference to main solution file
+### 2. Implement Docker Secrets Management
 
-#### 2.2 Configure Basic Backend Structure
-- [ ] Remove default WeatherForecast controller and related files
-- [ ] Configure minimal API endpoints structure (create a simple health endpoint)
-- [ ] Add basic appsettings.json configuration
-- [ ] Verify backend project builds independently with `dotnet build`
+#### 2.1 Create Secrets Infrastructure
+- [ ] Create ./dev-secrets/ directory structure for local development
+- [ ] Define secrets for PostgreSQL (POSTGRES_PASSWORD, POSTGRES_USER)
+- [ ] Define secrets for RabbitMQ (RABBITMQ_DEFAULT_USER, RABBITMQ_DEFAULT_PASS)
+- [ ] Plan for future Auth0 and LLM API key secrets
 
-### 3. Create Test Project with NUnit and NSubstitute
+#### 2.2 Configure Docker Secrets in Compose
+- [ ] Update docker-compose.yml to use Docker Secrets syntax
+- [ ] Configure PostgreSQL to consume secrets for authentication
+- [ ] Configure RabbitMQ to consume secrets for user creation
+- [ ] Set up proper file permissions and security for secrets
 
-#### 3.1 Initialize Test Project
-- [ ] Create directory: `./src/xrai.projectradar.application/tests/xrai.projectradar.backend.tests/`
-- [ ] Initialize NUnit test project using `dotnet new nunit`
-- [ ] Add NuGet package references: NSubstitute for mocking
-- [ ] Add project reference to backend project being tested
+### 3. Create Development Helper Scripts
 
-#### 3.2 Configure Test Infrastructure
-- [ ] Remove default UnitTest1.cs file
-- [ ] Create basic test class structure following naming conventions
-- [ ] Add simple dummy unit test to verify test infrastructure works
-- [ ] Configure test project settings and test runner integration
+#### 3.1 Create Secret Management Script
+- [ ] Create ./scripts/ directory structure
+- [ ] Implement ./scripts/create-secret.sh script for generating secrets
+- [ ] Add functionality to generate secure random passwords
+- [ ] Include validation and error handling for secret creation
+- [ ] Document script usage and parameters
 
-#### 3.3 Verify Test Infrastructure
-- [ ] Run tests using `dotnet test` command
-- [ ] Verify test discovery and execution works correctly
-- [ ] Ensure tests can be run from IDE test explorer
-- [ ] Validate test output and reporting format
+#### 3.2 Create Development Utilities
+- [ ] Create ./scripts/dev-setup.sh for complete environment setup
+- [ ] Add database initialization scripts if needed
+- [ ] Create cleanup scripts for development environment reset
+- [ ] Add logging and status reporting to all scripts
 
-### 4. Create Aspire AppHost Project
+### 4. Configure Local Development Overrides
 
-#### 4.1 Initialize Aspire Project
-- [ ] Create directory: `./src/xrai.projectradar.application/xrai.projectradar.AppHost/`
-- [ ] Initialize .NET Aspire AppHost project
-- [ ] Add required Aspire NuGet packages and dependencies
-- [ ] Configure basic Aspire application host setup
+#### 4.1 Create docker-compose.override.yml
+- [ ] Create override file for local development customizations
+- [ ] Configure secrets mounting from ./dev-secrets/* directory
+- [ ] Set up development-specific environment variables
+- [ ] Configure port mappings for local access (PostgreSQL: 5432, RabbitMQ: 5672, 15672)
 
-#### 4.2 Configure Service References
-- [ ] Add reference to backend project in Aspire AppHost
-- [ ] Configure basic service discovery and orchestration
-- [ ] Set up initial Aspire dashboard and monitoring
-- [ ] Verify Aspire project structure and configuration
+#### 4.2 Configure Development Networking
+- [ ] Set up Docker network for service communication
+- [ ] Configure proper DNS resolution between services
+- [ ] Ensure services are accessible from host for debugging
+- [ ] Set up proper isolation and security boundaries
 
-### 5. Organize Solution with Folders
+### 7. Integration Testing and Verification
 
-#### 5.1 Create Solution Folders
-- [ ] Add "tests" solution folder in main solution file
-- [ ] Add "dev" solution folder in main solution file
-- [ ] Move test project into "tests" solution folder
-- [ ] Move Aspire AppHost project into "dev" solution folder
+#### 7.1 Infrastructure Startup Testing
+- [ ] Test complete infrastructure startup with `docker-compose up`
+- [ ] Verify PostgreSQL service starts and accepts connections
+- [ ] Verify RabbitMQ service starts and management UI is accessible
+- [ ] Test service discovery and inter-service communication
 
-#### 5.2 Verify Solution Organization
-- [ ] Confirm proper folder structure in IDE solution explorer
-- [ ] Ensure all projects are properly categorized
-- [ ] Verify solution builds with organized structure
-- [ ] Test that all project references work correctly
+#### 7.2 Connectivity and Health Verification
+- [ ] Test database connectivity from host system
+- [ ] Test RabbitMQ management and messaging functionality
+- [ ] Verify secrets are properly mounted and accessible
+- [ ] Test infrastructure restart and recovery scenarios
 
-### 6. Final Integration and Verification
-
-#### 6.1 Complete Solution Build Test
-- [ ] Clean solution using `dotnet clean`
-- [ ] Restore all packages using `dotnet restore`
-- [ ] Build entire solution using `dotnet build`
-- [ ] Run all tests using `dotnet test`
-
-#### 6.2 IDE Integration Verification
-- [ ] Open solution in Visual Studio or VS Code
-- [ ] Verify IntelliSense and project navigation works
-- [ ] Test debugging capabilities on backend project
-- [ ] Confirm test runner integration in IDE
 
 ## Expected Outcomes
 
-- Complete .NET 8 solution structure with proper organization
-- Functional ASP.NET Core Web API backend project
-- Working test infrastructure with NUnit and NSubstitute
-- .NET Aspire AppHost project configured for local development
-- All projects properly referenced and organized in solution folders
-- Verified build and test pipeline working end-to-end
+- Complete containerized development environment with PostgreSQL and RabbitMQ
+- Secure secrets management system using Docker Secrets and config file for RabbitMQ
+- Helper scripts for easy local development setup
+- Production-ready infrastructure configuration with proper health checks
+- Verified connectivity between all infrastructure services
+- Documentation of setup procedures and troubleshooting
 
 ## Next Iteration Preview
 
-The next iteration (Iteration 2) will focus on Infrastructure & Docker Setup, including:
-- Creating docker-compose.yml with PostgreSQL and RabbitMQ services
-- Implementing Docker Secrets configuration for sensitive values
-- Setting up containerized development environment
-- Creating helper scripts for local development setup
+The next iteration (Iteration 3) will focus on Aspire Development Host Integration, including:
+- Configuring Aspire AppHost to orchestrate all services (backend, PostgreSQL, RabbitMQ)
+- Setting up service discovery and configuration management through Aspire
+- Configuring live-reload for development workflow
+- Integrating with existing Docker infrastructure for seamless development
 
 ## Prerequisites
 
-- .NET 8 SDK installed
-- Git repository initialized
-- Development environment (Visual Studio, VS Code, or compatible IDE)
-- Basic understanding of .NET project structure
+- Docker and Docker Compose installed
+- .NET 8 solution structure from Iteration 1 completed
+- Basic understanding of containerization and Docker networking
+- Git repository with proper directory structure
 
 ## Success Criteria
 
-- [ ] Solution builds successfully with `dotnet build`
-- [ ] All unit tests pass with `dotnet test`
-- [ ] Solution opens and loads correctly in IDE
-- [ ] Project references work properly between all components
-- [ ] Solution folder organization matches specification requirements
-- [ ] Aspire AppHost can be initialized (even if not fully configured yet)
-- [ ] Code follows .NET naming conventions and project structure standards
+- [ ] `docker-compose up` starts all infrastructure services successfully
+- [ ] PostgreSQL is accessible at localhost:5432 with proper authentication
+- [ ] RabbitMQ is accessible at localhost:5672 and management UI at localhost:15672
+- [ ] All secrets are properly configured and mounted via Docker Secrets
+- [ ] Helper scripts work correctly for development setup
+- [ ] Services can communicate with each other via Docker networking
+- [ ] Infrastructure can be completely reset and restarted without issues
+- [ ] No sensitive information is stored in plain text or committed to repository

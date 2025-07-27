@@ -438,3 +438,7 @@ Temporary Items
 
 # Project-specific logs
 logs/chat.json
+
+# Docker secrets (except .gitkeep)
+dev-secrets/*
+!dev-secrets/.gitkeep
