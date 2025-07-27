@@ -1,0 +1,16 @@
+[
+  {
+    "session_id": "0a7fd422-8022-4c6a-8b0a-a8bcc1929fbf",
+    "transcript_path": "/home/tobias/.claude/projects/-home-tobias-src-xrai-xrai-projectradar/0a7fd422-8022-4c6a-8b0a-a8bcc1929fbf.jsonl",
+    "cwd": "/home/tobias/src/xrai/xrai.projectradar",
+    "hook_event_name": "Stop",
+    "stop_hook_active": false
+  },
+  {
+    "session_id": "a316e104-b16f-4ae2-a18e-89c38c5bef7e",
+    "transcript_path": "/home/tobias/.claude/projects/-home-tobias-src-xrai-xrai-projectradar/a316e104-b16f-4ae2-a18e-89c38c5bef7e.jsonl",
+    "cwd": "/home/tobias/src/xrai/xrai.projectradar",
+    "hook_event_name": "Stop",
+    "stop_hook_active": false
+  }
+]

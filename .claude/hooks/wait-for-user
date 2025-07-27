@@ -1,8 +1,0 @@
-#!/bin/bash
-#
-# This hook is triggered when Claude is waiting for user interaction.
-# It uses PowerShell (available in WSL) to play a system sound on the host Windows machine.
-#
-
-SOUND_FILE_PATH='C:\Windows\Media\tada.wav'
-powershell.exe -Command "(New-Object Media.SoundPlayer '$SOUND_FILE_PATH').PlaySync()"
