@@ -41,13 +41,15 @@ This is a **reactive, message-driven microservice architecture** built on:
 
 ## Development Setup
 
-The project now has a working .NET 8 solution structure with established build/test commands:
+The project now has a complete development environment with dual workflow options:
 
 - **Build**: `dotnet build` (from solution root: `src/xrai.projectradar.application/`)
 - **Test**: `dotnet test` (runs all NUnit tests with NSubstitute mocking)
-- **dotnet Aspire**: Run `dotnet aspire run` to start all services with live-reload
-- **Docker Compose**: Single-command setup for development environment (planned)
+- **Aspire Development**: `dotnet run` from AppHost project - starts all services with live-reload, integrated dashboard, and telemetry
+- **Docker Compose**: `docker-compose up` - standalone infrastructure services (PostgreSQL, RabbitMQ)
 - **Secrets Management**: Docker Secrets for PostgreSQL, configuration files for RabbitMQ (no plain-text env files)
+- **Service Discovery**: Aspire-based service discovery with HTTP resilience patterns
+- **Observability**: OpenTelemetry integration with OTLP exporter for distributed tracing and metrics
 
 ## User Workflow
 
@@ -99,12 +101,21 @@ The UI consists of three main areas:
 
 ## Current Status
 
-The project has completed **Phase 0 (Foundation & Scaffolding)**. A complete .NET 8 solution structure is now implemented with:
+The project has completed **Phase 0 (Foundation & Scaffolding)** including:
 
-- Main solution: `src/xrai.projectradar.application/xrai.projectradar.application.sln`
-- ASP.NET Core Web API backend project with basic health endpoint
-- NUnit test project with NSubstitute framework and passing tests
-- .NET Aspire AppHost project for development orchestration
-- Proper solution folder organization ("tests", "dev")
+### Completed Iterations:
+1. **Solution Structure & Project Setup** - Complete .NET 8 solution with backend, tests, and Aspire AppHost
+2. **Infrastructure & Docker Setup** - Containerized environment with PostgreSQL, RabbitMQ, and Docker Secrets
+3. **Aspire Development Host Integration** - Enhanced development experience with service discovery, telemetry, and integrated dashboard
 
-**Next Phase**: Infrastructure & Docker Setup, then UI/UX Prototyping. Future development will follow the reactive microservices architecture outlined above.
+### Current Implementation Features:
+- Complete .NET 8 solution structure with proper organization
+- ASP.NET Core Web API backend with health endpoints and OpenTelemetry integration
+- Comprehensive test suite with NUnit and NSubstitute (12 tests passing)
+- .NET Aspire AppHost for development orchestration with PostgreSQL and RabbitMQ resources
+- Docker Compose infrastructure with secrets management
+- Service discovery and HTTP resilience patterns
+- OpenTelemetry distributed tracing and metrics with OTLP exporter
+- Dual development workflow (Docker-only or Aspire-enhanced)
+
+**Next Phase**: Observability Stack (Grafana + OpenTelemetry), then UI/UX Prototyping. Future development will follow the reactive microservices architecture outlined above.

@@ -1,6 +1,6 @@
 # Project Radar
 
-> **🚧 Phase 0 Complete**: Foundation & scaffolding implemented. .NET 8 solution structure with build/test pipeline is ready. Next: Infrastructure & Docker setup.
+> **✅ Phase 0 Complete**: Foundation & scaffolding with Aspire integration implemented. .NET 8 solution with containerized infrastructure and development orchestration is ready. Next: Observability Stack (Grafana + OpenTelemetry).
 
 An intelligent platform for freelancers and contractors to capture, evaluate, and track project opportunities using AI-powered analysis.
 
@@ -43,11 +43,11 @@ Project Radar is built as a **reactive, message-driven microservice architecture
 
 ## 🚀 Getting Started
 
-The .NET 8 solution structure is now implemented and ready for development.
+The complete development environment with Aspire integration is now ready.
 
 ### Prerequisites
 
-- .NET 8 SDK
+- .NET 8 SDK with Aspire workload (`dotnet workload install aspire`)
 - Docker & Docker Compose
 - Git
 
@@ -58,6 +58,9 @@ The .NET 8 solution structure is now implemented and ready for development.
 git clone https://github.com/tobiaswaggoner/xrai.projectradar.git
 cd xrai.projectradar
 
+# Set up development environment (creates Docker secrets, etc.)
+./scripts/dev-setup.sh
+
 # Navigate to solution and build
 cd src/xrai.projectradar.application
 dotnet build
@@ -65,20 +68,30 @@ dotnet build
 # Run tests to verify setup
 dotnet test
 
-# Start all services with live-reload (future)
-dotnet aspire run
+# Option 1: Start with Aspire (recommended)
+cd xrai.projectradar.apphost
+dotnet run
+# Access Aspire dashboard at http://localhost:15888
 
-# Alternative: Use Docker Compose directly (future)
+# Option 2: Use Docker Compose only
 docker-compose up -d
 ```
 
 ### Development Environment
 
-The project uses **dotnet Aspire** for orchestrating the development environment:
+The project offers **dual development workflows**:
 
-- **Live reload** for all services
-- **Aggregated dashboards** for monitoring
-- **Integrated observability** with OpenTelemetry
+#### Aspire Development (Recommended)
+- **Integrated service orchestration** with PostgreSQL and RabbitMQ
+- **Live reload** for all services with file watching
+- **Rich dashboard** for monitoring, logs, and distributed tracing
+- **Service discovery** with HTTP resilience patterns
+- **OpenTelemetry integration** for observability
+
+#### Docker Compose Only
+- **Standalone infrastructure** services (PostgreSQL, RabbitMQ)
+- **Manual service management** via Docker commands
+- **Direct database/message broker access** for debugging
 
 ## 📋 How It Works
 

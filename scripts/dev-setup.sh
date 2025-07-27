@@ -53,6 +53,14 @@ check_prerequisites() {
         exit 1
     fi
     
+    # Check if .NET SDK is installed
+    if ! command -v dotnet &> /dev/null; then
+        log_warn ".NET SDK is not installed. Aspire development will not be available."
+    else
+        local dotnet_version=$(dotnet --version)
+        log_info ".NET SDK version: $dotnet_version"
+    fi
+    
     log_info "Prerequisites check passed"
 }
 
@@ -169,10 +177,22 @@ show_service_info() {
     echo "  Username: projectradar_user"
     echo "  Password: (stored in dev-secrets/rabbitmq.conf)"
     echo ""
-    echo "To stop the services: docker-compose down"
-    echo "To view logs: docker-compose logs -f"
-    echo "To restart: docker-compose restart"
+    echo "Docker Commands:"
+    echo "  To stop the services: docker-compose down"
+    echo "  To view logs: docker-compose logs -f"
+    echo "  To restart: docker-compose restart"
     echo ""
+    
+    if command -v dotnet &> /dev/null; then
+        echo "Aspire Development:"
+        echo "  To run with Aspire orchestration:"
+        echo "    cd src/xrai.projectradar.application/xrai.projectradar.apphost"
+        echo "    dotnet run"
+        echo ""
+        echo "  This will start all services with the Aspire dashboard and provide"
+        echo "  integrated logging, metrics, and distributed tracing."
+        echo ""
+    fi
 }
 
 # Main execution

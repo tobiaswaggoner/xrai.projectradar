@@ -1,111 +1,124 @@
-# Next Step: Iteration 2 - Infrastructure & Docker Setup
+# Next Step: Iteration 3 - Aspire Development Host Integration
 
 ## Detailed Implementation Plan
 
-### 1. Create Main Docker Compose Configuration
+### 1. Configure Aspire AppHost Project Structure
 
-#### 1.1 Create Primary docker-compose.yml
-- [ ] Create docker-compose.yml in project root directory
-- [ ] Configure PostgreSQL service with proper version and configuration
-- [ ] Configure RabbitMQ service with management plugin enabled
-- [ ] Set up service networking and port mappings
-- [ ] Configure volume mounts for data persistence
+#### 1.1 Update Aspire AppHost Dependencies
+- [ ] Add necessary NuGet packages for PostgreSQL and RabbitMQ integration to AppHost project
+- [ ] Add Aspire.Hosting.PostgreSQL package for PostgreSQL orchestration
+- [ ] Add Aspire.Hosting.RabbitMQ package for RabbitMQ orchestration  
+- [ ] Update project references and ensure compatibility with existing infrastructure
 
-#### 1.2 Configure Service Dependencies
-- [ ] Define service startup order and dependencies
-- [ ] Configure health checks for PostgreSQL and RabbitMQ
-- [ ] Set up proper service discovery between containers
-- [ ] Configure restart policies for production readiness
+#### 1.2 Configure Service Discovery Infrastructure
+- [ ] Set up Aspire service discovery for backend API project
+- [ ] Configure connection strings and service endpoints through Aspire configuration
+- [ ] Implement service registration for PostgreSQL and RabbitMQ resources
+- [ ] Set up proper service naming conventions for internal communication
 
-### 2. Implement Docker Secrets Management
+### 2. Integrate Existing Docker Infrastructure
 
-#### 2.1 Create Secrets Infrastructure
-- [ ] Create ./dev-secrets/ directory structure for local development
-- [ ] Define secrets for PostgreSQL (POSTGRES_PASSWORD, POSTGRES_USER)
-- [ ] Define secrets for RabbitMQ (RABBITMQ_DEFAULT_USER, RABBITMQ_DEFAULT_PASS)
-- [ ] Plan for future Auth0 and LLM API key secrets
+#### 2.1 Bridge Docker and Aspire Configuration
+- [ ] Configure Aspire to work with existing docker-compose.yml services
+- [ ] Map Docker secrets to Aspire configuration system
+- [ ] Ensure PostgreSQL connection uses same credentials as Docker setup
+- [ ] Integrate RabbitMQ configuration with Aspire service discovery
 
-#### 2.2 Configure Docker Secrets in Compose
-- [ ] Update docker-compose.yml to use Docker Secrets syntax
-- [ ] Configure PostgreSQL to consume secrets for authentication
-- [ ] Configure RabbitMQ to consume secrets for user creation
-- [ ] Set up proper file permissions and security for secrets
+#### 2.2 Update Backend Project for Aspire Integration
+- [ ] Add Aspire.ServiceDefaults package to backend project
+- [ ] Configure backend project to use Aspire service discovery
+- [ ] Update connection strings to use Aspire configuration
+- [ ] Add health check endpoints for Aspire dashboard monitoring
 
-### 3. Create Development Helper Scripts
+### 3. Configure Live-Reload Development Workflow
 
-#### 3.1 Create Secret Management Script
-- [ ] Create ./scripts/ directory structure
-- [ ] Implement ./scripts/create-secret.sh script for generating secrets
-- [ ] Add functionality to generate secure random passwords
-- [ ] Include validation and error handling for secret creation
-- [ ] Document script usage and parameters
+#### 3.1 Set Up Hot Reload Capabilities
+- [ ] Configure backend project for live-reload during development
+- [ ] Set up file watching for automatic service restart on code changes
+- [ ] Configure Aspire to properly handle service restarts without losing state
+- [ ] Test hot reload functionality with simple code changes
 
-#### 3.2 Create Development Utilities
-- [ ] Create ./scripts/dev-setup.sh for complete environment setup
-- [ ] Add database initialization scripts if needed
-- [ ] Create cleanup scripts for development environment reset
-- [ ] Add logging and status reporting to all scripts
+#### 3.2 Integrate Development Scripts
+- [ ] Update existing dev-setup.sh script to work with Aspire
+- [ ] Create aspire-dev.sh script for Aspire-specific development tasks
+- [ ] Ensure Docker infrastructure can run alongside Aspire when needed
+- [ ] Document the combined workflow options (Docker-only vs Aspire)
 
-### 4. Configure Local Development Overrides
+### 4. Configure Aspire Dashboard and Monitoring
 
-#### 4.1 Create docker-compose.override.yml
-- [ ] Create override file for local development customizations
-- [ ] Configure secrets mounting from ./dev-secrets/* directory
-- [ ] Set up development-specific environment variables
-- [ ] Configure port mappings for local access (PostgreSQL: 5432, RabbitMQ: 5672, 15672)
+#### 4.1 Set Up Service Health Monitoring
+- [ ] Configure health checks for all services in Aspire dashboard
+- [ ] Add service status indicators for PostgreSQL and RabbitMQ
+- [ ] Set up logging aggregation through Aspire dashboard
+- [ ] Configure service dependency visualization
 
-#### 4.2 Configure Development Networking
-- [ ] Set up Docker network for service communication
-- [ ] Configure proper DNS resolution between services
-- [ ] Ensure services are accessible from host for debugging
-- [ ] Set up proper isolation and security boundaries
+#### 4.2 Dashboard Configuration and Access
+- [ ] Ensure Aspire dashboard is accessible at default port
+- [ ] Configure dashboard to show service logs and metrics
+- [ ] Set up service restart capabilities through dashboard
+- [ ] Test dashboard functionality and service management features
 
-### 7. Integration Testing and Verification
+### 5. Testing and Integration Verification
 
-#### 7.1 Infrastructure Startup Testing
-- [ ] Test complete infrastructure startup with `docker-compose up`
-- [ ] Verify PostgreSQL service starts and accepts connections
-- [ ] Verify RabbitMQ service starts and management UI is accessible
-- [ ] Test service discovery and inter-service communication
+#### 5.1 End-to-End Aspire Startup Testing
+- [ ] Test complete service startup with `dotnet aspire run`
+- [ ] Verify all services start in correct order with proper dependencies
+- [ ] Test service discovery between backend and infrastructure services
+- [ ] Verify configuration injection and connection string resolution
 
-#### 7.2 Connectivity and Health Verification
-- [ ] Test database connectivity from host system
-- [ ] Test RabbitMQ management and messaging functionality
-- [ ] Verify secrets are properly mounted and accessible
-- [ ] Test infrastructure restart and recovery scenarios
+#### 5.2 Development Workflow Validation
+- [ ] Test hot reload functionality with backend code changes
+- [ ] Verify service restart capabilities without data loss
+- [ ] Test debugging workflow with Aspire integration
+- [ ] Validate that existing Docker infrastructure remains functional
 
+### 6. Create Unit Tests for Aspire Configuration
+
+#### 6.1 Test Service Discovery Configuration
+- [ ] Create unit tests for Aspire service registration
+- [ ] Test connection string resolution and configuration injection
+- [ ] Verify service dependency configuration is correct
+- [ ] Test error handling for missing or misconfigured services
+
+#### 6.2 Integration Tests for Development Workflow  
+- [ ] Create integration tests that verify Aspire service startup
+- [ ] Test service communication through Aspire service discovery
+- [ ] Verify health check endpoints function correctly
+- [ ] Test live-reload scenarios with service dependencies
 
 ## Expected Outcomes
 
-- Complete containerized development environment with PostgreSQL and RabbitMQ
-- Secure secrets management system using Docker Secrets and config file for RabbitMQ
-- Helper scripts for easy local development setup
-- Production-ready infrastructure configuration with proper health checks
-- Verified connectivity between all infrastructure services
-- Documentation of setup procedures and troubleshooting
+- Complete .NET Aspire integration with existing Docker infrastructure
+- Seamless developer experience with `dotnet aspire run` command
+- Live-reload capability for rapid development iteration
+- Integrated dashboard for service monitoring and management
+- Service discovery and configuration management through Aspire
+- Maintained compatibility with existing Docker-based development workflow
 
 ## Next Iteration Preview
 
-The next iteration (Iteration 3) will focus on Aspire Development Host Integration, including:
-- Configuring Aspire AppHost to orchestrate all services (backend, PostgreSQL, RabbitMQ)
-- Setting up service discovery and configuration management through Aspire
-- Configuring live-reload for development workflow
-- Integrating with existing Docker infrastructure for seamless development
+The next iteration (Iteration 4) will focus on Observability Stack implementation:
+- Adding OpenTelemetry instrumentation to backend services (OTEL 1.7)
+- Setting up Grafana stack with Prometheus + Tempo + Grafana OSS
+- Configuring OTLP exporters for traces and metrics
+- Setting up optional ELK stack for logging (disabled by default)
+- Creating comprehensive monitoring dashboards
 
 ## Prerequisites
 
-- Docker and Docker Compose installed
-- .NET 8 solution structure from Iteration 1 completed
-- Basic understanding of containerization and Docker networking
-- Git repository with proper directory structure
+- Completed Iteration 1 (Solution Structure & Project Setup)  
+- Completed Iteration 2 (Infrastructure & Docker Setup)
+- .NET 8 SDK and Aspire workload installed
+- Docker and Docker Compose functional
+- Existing PostgreSQL and RabbitMQ services running via docker-compose
 
 ## Success Criteria
 
-- [ ] `docker-compose up` starts all infrastructure services successfully
-- [ ] PostgreSQL is accessible at localhost:5432 with proper authentication
-- [ ] RabbitMQ is accessible at localhost:5672 and management UI at localhost:15672
-- [ ] All secrets are properly configured and mounted via Docker Secrets
-- [ ] Helper scripts work correctly for development setup
-- [ ] Services can communicate with each other via Docker networking
-- [ ] Infrastructure can be completely reset and restarted without issues
-- [ ] No sensitive information is stored in plain text or committed to repository
+- [ ] `dotnet aspire run` starts all services successfully including backend, PostgreSQL, and RabbitMQ
+- [ ] Aspire dashboard is accessible and shows all service health status
+- [ ] Backend service can connect to PostgreSQL and RabbitMQ through Aspire service discovery
+- [ ] Live-reload works for backend code changes without manual restarts
+- [ ] Service logs are visible in Aspire dashboard
+- [ ] All unit and integration tests pass
+- [ ] Existing Docker infrastructure continues to work independently
+- [ ] Service dependencies are properly configured and visualized in dashboard
