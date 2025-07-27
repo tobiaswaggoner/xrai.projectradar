@@ -69,3 +69,31 @@ Implemented complete containerized development environment with Docker Compose:
 - **External vs Local Secrets**: Used external Docker secrets for PostgreSQL to demonstrate the pattern, with local file mounting as fallback for development.
 - **Script Architecture**: Created modular scripts with proper error handling, logging, and user interaction for robust development workflow.
 
+---
+
+## 2025-07-27 3.0 Aspire Development Host Integration
+
+### Summary
+
+Successfully integrated .NET Aspire for enhanced development orchestration and monitoring:
+- **Aspire AppHost Configuration**: Updated AppHost project with PostgreSQL and RabbitMQ resource definitions using Aspire hosting packages
+- **Service Discovery Integration**: Configured backend project with Aspire service discovery, resilience patterns, and health checks
+- **OpenTelemetry Integration**: Added comprehensive telemetry instrumentation (traces, metrics) with OTLP exporter for Aspire dashboard
+- **Development Workflow Enhancement**: Updated development scripts to support both Docker-only and Aspire workflows
+- **Testing Infrastructure**: Created integration tests for Aspire service discovery and configuration validation
+- **Documentation Enhancement**: Added comprehensive Aspire development documentation and troubleshooting guides
+
+Major changes implemented:
+- Enhanced `AppHost.cs` with PostgreSQL and RabbitMQ service definitions and proper dependencies
+- Integrated service discovery, HTTP resilience, and OpenTelemetry in backend `Program.cs`
+- Added Aspire hosting packages for PostgreSQL and RabbitMQ orchestration
+- Created integration tests for service discovery and Aspire configuration
+- Updated development scripts with Aspire support and dual-workflow options
+
+### Design decisions
+
+- **Dual Workflow Support**: Maintained compatibility with existing Docker Compose workflow while adding Aspire orchestration as an enhanced development option
+- **OpenTelemetry Integration**: Implemented comprehensive observability from the start with OTLP exporter configured for Aspire dashboard integration
+- **Service Discovery Pattern**: Used Aspire's built-in service discovery with HTTP client resilience patterns for robust inter-service communication
+- **Testing Approach**: Created both unit tests for Aspire configuration and integration tests for end-to-end service startup validation
+

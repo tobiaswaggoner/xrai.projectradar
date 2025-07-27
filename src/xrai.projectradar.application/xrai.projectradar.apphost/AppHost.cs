@@ -1,5 +1,20 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var backend = builder.AddProject<Projects.xrai_projectradar_backend>("backend");
+// Add PostgreSQL resource
+var postgres = builder.AddPostgres("postgres")
+    .WithPgAdmin()
+    .WithDataVolume("postgres_data");
+
+var projectradarDb = postgres.AddDatabase("projectradar");
+
+// Add RabbitMQ resource
+var rabbitmq = builder.AddRabbitMQ("rabbitmq")
+    .WithManagementPlugin()
+    .WithDataVolume("rabbitmq_data");
+
+// Add backend project with references to PostgreSQL and RabbitMQ
+var backend = builder.AddProject<Projects.xrai_projectradar_backend>("backend")
+    .WithReference(projectradarDb)
+    .WithReference(rabbitmq);
 
 builder.Build().Run();

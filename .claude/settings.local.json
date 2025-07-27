@@ -18,7 +18,9 @@
       "Bash(docker exec:*)",
       "Bash(curl:*)",
       "Bash(psql:*)",
-      "Bash(docker-compose:*)"
+      "Bash(docker-compose:*)",
+      "Bash(dotnet add package:*)",
+      "Bash(dotnet test:*)"
     ],
     "deny": []
   }
