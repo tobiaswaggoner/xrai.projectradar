@@ -4,13 +4,13 @@
 
 Create the complete .NET solution structure with proper project organization, Aspire integration, and basic test infrastructure.
 
-- [ ] Create main solution structure at ./src/xrai.projectradar.application/xrai.projectradar.application.sln
-- [ ] Create backend project: ./src/xrai.projectradar.application/xrai.projectradar.backend/xrai.projectradar.backend.csproj (Empty ASP.NET application)
-- [ ] Create test project: ./src/xrai.projectradar.application/tests/xrai.projectradar.backend.tests/xrai.projectradar.backend.tests.csproj (NUnit, NSubstitute)
-- [ ] Create Aspire AppHost: ./src/xrai.projectradar.application/xrai.projectradar.AppHost/xrai.projectradar.AppHost.csproj
-- [ ] Organize solution folders: create "tests" folder and move test project, create "dev" folder and move Aspire project
-- [ ] Add simple dummy unit test to verify test infrastructure works
-- [ ] Verify solution builds and tests run successfully
+- [x] Create main solution structure at ./src/xrai.projectradar.application/xrai.projectradar.application.sln
+- [x] Create backend project: ./src/xrai.projectradar.application/xrai.projectradar.backend/xrai.projectradar.backend.csproj (Empty ASP.NET application)
+- [x] Create test project: ./src/xrai.projectradar.application/tests/xrai.projectradar.backend.tests/xrai.projectradar.backend.tests.csproj (NUnit, NSubstitute)
+- [x] Create Aspire AppHost: ./src/xrai.projectradar.application/xrai.projectradar.AppHost/xrai.projectradar.AppHost.csproj
+- [x] Organize solution folders: create "tests" folder and move test project, create "dev" folder and move Aspire project
+- [x] Add simple dummy unit test to verify test infrastructure works
+- [x] Verify solution builds and tests run successfully
 
 ---
 

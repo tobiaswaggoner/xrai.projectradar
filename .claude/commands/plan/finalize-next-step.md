@@ -18,8 +18,16 @@ We now need to verify the changes and commit them to git if all seems OK.
 
 6. Update @aidocs/implementation-plan/implementation-history.md. Add a section for this iteration. Add all major changes.
 
-7. commit and push all changes to the current branch using a multiline commit message that summarizes the changes.
+7. Update @aidocs/implementation-plan/next-implementation-phase.md
 
-8. Create a pull request to merge the new branch to main.
+8. Update the documentation in @claude.md and @Readme.md only if required
 
-9. Only if successful: checkout the main branch and fetch all changes
+9. Update @aidocs/ProjectRadar-HighLevelArchitecture.md, @aidocs/ProjectRadar-HighLevelRoadmap.md and @aidocs/ProjectRadar-ProjectDescription.md only if there are discrepancies.
+
+10. make sure that cwd is in the project root: ~/src/xrai/xrai.projectradar. Then add all changes to git (git add .)
+
+11. commit and push all changes to the current branch using a multiline commit message that summarizes the changes.
+
+12. Create a pull request to merge the new branch to main.
+
+13. Only if successful: checkout the main branch and fetch all changes
