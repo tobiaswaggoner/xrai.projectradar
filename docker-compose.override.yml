@@ -1,0 +1,33 @@
+version: '3.8'
+
+# Development overrides for local development
+# This file provides local development configuration that extends docker-compose.yml
+
+services:
+  postgres:
+    ports:
+      - "15432:5432"
+    environment:
+      # Enable detailed logging for development
+      POSTGRES_LOG_STATEMENT: all
+      POSTGRES_LOG_DURATION: "on"
+    # Mount secrets from local files for development
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Additional volume for initialization scripts (future use)
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+
+  rabbitmq:
+    ports:
+      - "15671:5672"    # AMQP port
+      - "15673:15672"   # Management UI port
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./dev-secrets/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
+
+# Override secrets to use file-based secrets for local development
+secrets:
+  postgres_user:
+    file: ./dev-secrets/postgres_user
+  postgres_password:
+    file: ./dev-secrets/postgres_password
