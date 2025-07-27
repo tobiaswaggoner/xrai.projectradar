@@ -1,0 +1,56 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    environment: 'development'
+    project: 'projectradar'
+
+# Alertmanager configuration (disabled for now)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  # Scrape backend metrics endpoint
+  - job_name: "backend"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["host.docker.internal:5018"]
+        labels:
+          service: "xrai.projectradar.backend"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+
+          
+  # Scrape Aspire dashboard metrics
+  - job_name: "aspire"
+    metrics_path: "/metrics"
+    static_configs:
+      - targets: ["host.docker.internal:17141"]
+        labels:
+          service: "aspire-dashboard"
+
+  # Scrape Grafana metrics
+  - job_name: "grafana"
+    static_configs:
+      - targets: ["grafana:3000"]
+
+  # Future: Add more services as they are created
+  # - job_name: "api-gateway"
+  #   static_configs:
+  #     - targets: ["api-gateway:8080"]

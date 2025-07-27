@@ -75,7 +75,7 @@ These are simple, denormalized tables in PostgreSQL designed specifically to bac
 
 ### 2.4 Observability
 * **Tracing & Metrics:** Every .NET service is instrumented with **OpenTelemetry** (OTEL 1.7).  The OTLP exporter streams traces & metrics to a local **Grafana stack** (Prometheus + Tempo + Grafana OSS dashboards).
-* **Structured Logging:** Serilog continues to be the canonical logger.  Primary sink =  OTLP.  **Optional** secondary sink =  Elasticsearch → Kibana (for devs preferring the classical ELK workflow).  The ELK containers are disabled by default and can be enabled via `COMPOSE_PROFILES=elk`.
+* **Structured Logging:** Serilog continues to be the canonical logger.  Primary sink =  OTLP.  
 
 ## **3\. Communication & Data Flow**
 

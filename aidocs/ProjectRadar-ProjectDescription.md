@@ -112,7 +112,7 @@ The user interface is divided into three main areas: **Inbox**, **Backlog**, and
 * **Logging:** Structured logging will be implemented throughout using **Serilog**.  
 * **Audit Trails & Replayability:** The event sourcing architecture and messaging will be used to ensure complete and traceable audit trails for all state changes. This allows for the complete reconstruction of the system state at any point in time (Replayability).
 * **OpenTelemetry traces & metrics** exported to Grafana Tempo/Prometheus.
-* **Serilog sinks:** OTLP (primary) and optional Elasticsearch (`COMPOSE_PROFILES=elk`).
+* **Serilog sinks:** OTLP
 
 ### 3.7 Security Notes
 * **Authentication:** OAuth 2.0/OIDC via **Auth0**.
@@ -172,5 +172,4 @@ A future service will use a **MinHash + Jaccard Similarity** algorithm with conf
   * Selection of specific metrics for static code analysis.  
   * Detailed concept for the automated deployment of the containers.
 * **Event retention policy** (see Architecture §5.3).
-* **ELK vs OTEL‑only observability decision**.
 * **Container hardening baseline (CIS) & SBOM publishing.**

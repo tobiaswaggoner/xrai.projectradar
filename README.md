@@ -1,6 +1,6 @@
 # Project Radar
 
-> **✅ Phase 0 Complete**: Foundation & scaffolding with Aspire integration implemented. .NET 8 solution with containerized infrastructure and development orchestration is ready. Next: Observability Stack (Grafana + OpenTelemetry).
+> **✅ Phase 0 Complete**: Foundation & scaffolding with Aspire integration and observability stack implemented. Full .NET 8 solution with containerized infrastructure, Grafana monitoring, and OpenTelemetry instrumentation is ready. Next: CI/CD Pipeline & Quality Gates.
 
 An intelligent platform for freelancers and contractors to capture, evaluate, and track project opportunities using AI-powered analysis.
 
@@ -75,6 +75,12 @@ dotnet run
 
 # Option 2: Use Docker Compose only
 docker-compose up -d
+
+# Access observability tools
+./scripts/observability-urls.sh
+# Grafana: http://localhost:3000 (admin/admin)
+# Prometheus: http://localhost:9090
+# Backend API: http://localhost:5000/swagger
 ```
 
 ### Development Environment
@@ -132,7 +138,6 @@ The project offers **dual development workflows**:
 - **Structured Logging**: Serilog with OTLP export
 - **Distributed Tracing**: OpenTelemetry across all services
 - **Metrics**: Prometheus + Grafana dashboards
-- **Optional ELK**: Elasticsearch + Kibana for log analysis
 
 ## 🔒 Security & Privacy
 

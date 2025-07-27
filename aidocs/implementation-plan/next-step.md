@@ -1,124 +1,173 @@
-# Next Step: Iteration 3 - Aspire Development Host Integration
+# Next Step: Iteration 4 - Observability Stack (Grafana + OpenTelemetry)
 
 ## Detailed Implementation Plan
 
-### 1. Configure Aspire AppHost Project Structure
+### 1. OpenTelemetry Instrumentation Setup
 
-#### 1.1 Update Aspire AppHost Dependencies
-- [ ] Add necessary NuGet packages for PostgreSQL and RabbitMQ integration to AppHost project
-- [ ] Add Aspire.Hosting.PostgreSQL package for PostgreSQL orchestration
-- [ ] Add Aspire.Hosting.RabbitMQ package for RabbitMQ orchestration  
-- [ ] Update project references and ensure compatibility with existing infrastructure
+#### 1.1 Add OpenTelemetry Packages to Backend Project
 
-#### 1.2 Configure Service Discovery Infrastructure
-- [ ] Set up Aspire service discovery for backend API project
-- [ ] Configure connection strings and service endpoints through Aspire configuration
-- [ ] Implement service registration for PostgreSQL and RabbitMQ resources
-- [ ] Set up proper service naming conventions for internal communication
+- [ ] Add OpenTelemetry.Extensions.Hosting package to backend project
+- [ ] Add OpenTelemetry.Instrumentation.AspNetCore for HTTP tracing
+- [ ] Add OpenTelemetry.Instrumentation.Http for outbound HTTP calls
+- [ ] Add OpenTelemetry.Instrumentation.SqlClient for PostgreSQL tracing
+- [ ] Add OpenTelemetry.Exporter.OpenTelemetryProtocol for OTLP export
+- [ ] Add OpenTelemetry.Instrumentation.Runtime for .NET runtime metrics
 
-### 2. Integrate Existing Docker Infrastructure
+#### 1.2 Configure OpenTelemetry in Backend Application
 
-#### 2.1 Bridge Docker and Aspire Configuration
-- [ ] Configure Aspire to work with existing docker-compose.yml services
-- [ ] Map Docker secrets to Aspire configuration system
-- [ ] Ensure PostgreSQL connection uses same credentials as Docker setup
-- [ ] Integrate RabbitMQ configuration with Aspire service discovery
+- [ ] Configure OpenTelemetry services in Program.cs with proper service name
+- [ ] Set up tracing for ASP.NET Core activities and HTTP requests
+- [ ] Configure metrics collection for HTTP requests, runtime, and custom metrics
+- [ ] Add resource attributes (service name, version, environment)
+- [ ] Configure OTLP exporter endpoint for Aspire dashboard integration
 
-#### 2.2 Update Backend Project for Aspire Integration
-- [ ] Add Aspire.ServiceDefaults package to backend project
-- [ ] Configure backend project to use Aspire service discovery
-- [ ] Update connection strings to use Aspire configuration
-- [ ] Add health check endpoints for Aspire dashboard monitoring
+#### 1.3 Add Custom Instrumentation Points
 
-### 3. Configure Live-Reload Development Workflow
+- [ ] Create custom activity sources for application-specific tracing
+- [ ] Add business logic tracing points for future domain operations
+- [ ] Create custom metrics for application performance monitoring
+- [ ] Implement correlation ID propagation for distributed tracing
 
-#### 3.1 Set Up Hot Reload Capabilities
-- [ ] Configure backend project for live-reload during development
-- [ ] Set up file watching for automatic service restart on code changes
-- [ ] Configure Aspire to properly handle service restarts without losing state
-- [ ] Test hot reload functionality with simple code changes
+### 2. Grafana Stack Infrastructure Setup
 
-#### 3.2 Integrate Development Scripts
-- [ ] Update existing dev-setup.sh script to work with Aspire
-- [ ] Create aspire-dev.sh script for Aspire-specific development tasks
-- [ ] Ensure Docker infrastructure can run alongside Aspire when needed
-- [ ] Document the combined workflow options (Docker-only vs Aspire)
+#### 2.1 Add Grafana Services to Docker Compose
 
-### 4. Configure Aspire Dashboard and Monitoring
+- [ ] Add Prometheus service configuration to docker-compose.yml
+- [ ] Add Tempo service configuration for distributed tracing
+- [ ] Add Grafana OSS service configuration
+- [ ] Configure proper networking between observability services
+- [ ] Set up data source configurations and service discovery
 
-#### 4.1 Set Up Service Health Monitoring
-- [ ] Configure health checks for all services in Aspire dashboard
-- [ ] Add service status indicators for PostgreSQL and RabbitMQ
-- [ ] Set up logging aggregation through Aspire dashboard
-- [ ] Configure service dependency visualization
+#### 2.2 Configure Prometheus for Metrics Collection
 
-#### 4.2 Dashboard Configuration and Access
-- [ ] Ensure Aspire dashboard is accessible at default port
-- [ ] Configure dashboard to show service logs and metrics
-- [ ] Set up service restart capabilities through dashboard
-- [ ] Test dashboard functionality and service management features
+- [ ] Create prometheus.yml configuration file
+- [ ] Configure scrape targets for backend service metrics endpoint
+- [ ] Set up service discovery for dynamic target configuration
+- [ ] Configure retention policies and storage settings
+- [ ] Add health checks and monitoring for Prometheus itself
 
-### 5. Testing and Integration Verification
+#### 2.3 Configure Tempo for Distributed Tracing
 
-#### 5.1 End-to-End Aspire Startup Testing
-- [ ] Test complete service startup with `dotnet aspire run`
-- [ ] Verify all services start in correct order with proper dependencies
-- [ ] Test service discovery between backend and infrastructure services
-- [ ] Verify configuration injection and connection string resolution
+- [ ] Create tempo.yml configuration file
+- [ ] Configure OTLP receiver for trace ingestion
+- [ ] Set up trace storage backend (local filesystem for development)
+- [ ] Configure trace retention and sampling policies
+- [ ] Set up Tempo health checks and monitoring
 
-#### 5.2 Development Workflow Validation
-- [ ] Test hot reload functionality with backend code changes
-- [ ] Verify service restart capabilities without data loss
-- [ ] Test debugging workflow with Aspire integration
-- [ ] Validate that existing Docker infrastructure remains functional
+### 3. Grafana Dashboard and Visualization Setup
 
-### 6. Create Unit Tests for Aspire Configuration
+#### 3.1 Configure Grafana Data Sources
 
-#### 6.1 Test Service Discovery Configuration
-- [ ] Create unit tests for Aspire service registration
-- [ ] Test connection string resolution and configuration injection
-- [ ] Verify service dependency configuration is correct
-- [ ] Test error handling for missing or misconfigured services
+- [ ] Configure Prometheus data source in Grafana
+- [ ] Configure Tempo data source for trace visualization
+- [ ] Set up data source health checks and connectivity testing
+- [ ] Configure authentication and access policies
+- [ ] Test data source connectivity and data ingestion
 
-#### 6.2 Integration Tests for Development Workflow  
-- [ ] Create integration tests that verify Aspire service startup
-- [ ] Test service communication through Aspire service discovery
-- [ ] Verify health check endpoints function correctly
-- [ ] Test live-reload scenarios with service dependencies
+#### 3.2 Create Application Monitoring Dashboards
+
+- [ ] Create ASP.NET Core performance dashboard (request rates, response times, errors)
+- [ ] Create system metrics dashboard (CPU, memory, GC, thread pool)
+- [ ] Create custom business metrics dashboard template
+- [ ] Set up dashboard variables and templating for filtering
+- [ ] Configure dashboard refresh intervals and time ranges
+
+#### 3.3 Configure Alerting and Notifications
+
+- [ ] Set up basic alerting rules for service health
+- [ ] Configure notification channels (development environment)
+- [ ] Create alert conditions for error rates and performance thresholds
+- [ ] Test alerting functionality and notification delivery
+- [ ] Document alerting thresholds and escalation procedures
+
+### 4. Serilog Integration with OpenTelemetry
+
+#### 4.1 Configure Serilog OTLP Sink
+
+- [ ] Add Serilog.Sinks.OpenTelemetry package to backend project
+- [ ] Configure OTLP as primary logging sink in appsettings.json
+- [ ] Set up structured logging format with trace correlation
+- [ ] Configure log levels and filtering for different environments
+- [ ] Add log enrichment with OpenTelemetry trace and span IDs
+
+### 5. Aspire Integration and Dashboard Enhancement
+
+#### 5.1 Integrate Observability with Aspire
+
+- [ ] Update Aspire AppHost to include observability service definitions
+- [ ] Configure OpenTelemetry OTLP endpoint to work with Aspire dashboard
+- [ ] Set up service health monitoring integration
+- [ ] Test trace and metrics visibility in Aspire dashboard
+- [ ] Ensure live-reload preserves observability configuration
+
+#### 5.2 Enhanced Development Experience
+
+- [ ] Update development scripts to start observability stack
+- [ ] Create shortcuts for accessing Grafana dashboard (http://localhost:3000)
+- [ ] Document observability features in development workflow
+- [ ] Add troubleshooting guides for common observability issues
+- [ ] Test complete development experience with observability enabled
+
+### 6. Testing and Validation
+
+#### 6.1 Create Observability Integration Tests
+
+- [ ] Create tests to verify OpenTelemetry configuration and export
+- [ ] Test trace generation and propagation across service boundaries
+- [ ] Verify metrics collection and export functionality
+- [ ] Test OTLP exporter connectivity and data transmission
+- [ ] Create tests for correlation ID propagation
+
+#### 6.2 End-to-End Observability Testing
+
+- [ ] Generate test traffic to create traces and metrics
+- [ ] Verify data appears correctly in Grafana dashboards
+- [ ] Test trace correlation between different service components
+- [ ] Validate dashboard functionality and data visualization
+- [ ] Test alerting rules and notification delivery
+
+#### 6.3 Performance Impact Testing
+
+- [ ] Measure observability overhead on application performance
+- [ ] Test resource usage of observability infrastructure
+- [ ] Validate sampling strategies for production readiness
+- [ ] Document performance impact and optimization recommendations
+- [ ] Create benchmarks for observability configuration tuning
 
 ## Expected Outcomes
 
-- Complete .NET Aspire integration with existing Docker infrastructure
-- Seamless developer experience with `dotnet aspire run` command
-- Live-reload capability for rapid development iteration
-- Integrated dashboard for service monitoring and management
-- Service discovery and configuration management through Aspire
-- Maintained compatibility with existing Docker-based development workflow
+- Complete OpenTelemetry instrumentation with OTEL 1.7 across backend services
+- Grafana stack running with Prometheus + Tempo + Grafana OSS dashboards
+- OTLP exporter streaming traces and metrics to both Aspire and Grafana
+- Serilog configured with OTLP as primary sink
+- Comprehensive monitoring dashboards accessible at http://localhost:3000
+- Enhanced development experience with integrated observability tooling
 
 ## Next Iteration Preview
 
-The next iteration (Iteration 4) will focus on Observability Stack implementation:
-- Adding OpenTelemetry instrumentation to backend services (OTEL 1.7)
-- Setting up Grafana stack with Prometheus + Tempo + Grafana OSS
-- Configuring OTLP exporters for traces and metrics
-- Setting up optional ELK stack for logging (disabled by default)
-- Creating comprehensive monitoring dashboards
+The next iteration (Iteration 5) will focus on CI/CD Pipeline & Quality Gates:
+- Implementing comprehensive GitHub Actions workflow for continuous integration
+- Adding automated build, test execution, and quality gate enforcement
+- Integrating Trivy security scanning for container images and dependencies
+- Setting up Dependabot for automated dependency updates
+- Configuring branch protection rules and automated PR workflows
+- This is distinct from the current observability focus and will build upon the monitoring foundation established here
 
 ## Prerequisites
 
-- Completed Iteration 1 (Solution Structure & Project Setup)  
-- Completed Iteration 2 (Infrastructure & Docker Setup)
-- .NET 8 SDK and Aspire workload installed
-- Docker and Docker Compose functional
-- Existing PostgreSQL and RabbitMQ services running via docker-compose
+- Completed Iteration 1, 2, and 3 (Solution Structure, Infrastructure, and Aspire Integration)
+- .NET 8 SDK with Aspire workload installed
+- Docker and Docker Compose functional with existing services
+- Backend service with health endpoints and basic API functionality
+- Aspire development environment working correctly
 
 ## Success Criteria
 
-- [ ] `dotnet aspire run` starts all services successfully including backend, PostgreSQL, and RabbitMQ
-- [ ] Aspire dashboard is accessible and shows all service health status
-- [ ] Backend service can connect to PostgreSQL and RabbitMQ through Aspire service discovery
-- [ ] Live-reload works for backend code changes without manual restarts
-- [ ] Service logs are visible in Aspire dashboard
-- [ ] All unit and integration tests pass
-- [ ] Existing Docker infrastructure continues to work independently
-- [ ] Service dependencies are properly configured and visualized in dashboard
+- [ ] Backend services emit traces and metrics via OpenTelemetry OTLP exporter
+- [ ] Grafana stack starts successfully and is accessible at http://localhost:3000
+- [ ] Application traces are visible in both Aspire dashboard and Grafana Tempo
+- [ ] Metrics dashboards show real-time application performance data
+- [ ] Serilog logs are structured and correlated with traces
+- [ ] All observability integration tests pass
+- [ ] Development workflow includes observability monitoring capabilities
+- [ ] Performance impact of observability is documented and acceptable
