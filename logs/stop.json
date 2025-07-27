@@ -12,5 +12,19 @@
     "cwd": "/home/tobias/src/xrai/xrai.projectradar",
     "hook_event_name": "Stop",
     "stop_hook_active": false
+  },
+  {
+    "session_id": "82ea036f-e529-4e0e-b323-2295e097c61d",
+    "transcript_path": "/home/tobias/.claude/projects/-home-tobias-src-xrai-xrai-projectradar/82ea036f-e529-4e0e-b323-2295e097c61d.jsonl",
+    "cwd": "/home/tobias/src/xrai/xrai.projectradar",
+    "hook_event_name": "Stop",
+    "stop_hook_active": false
+  },
+  {
+    "session_id": "82ea036f-e529-4e0e-b323-2295e097c61d",
+    "transcript_path": "/home/tobias/.claude/projects/-home-tobias-src-xrai-xrai-projectradar/82ea036f-e529-4e0e-b323-2295e097c61d.jsonl",
+    "cwd": "/home/tobias/src/xrai/xrai.projectradar",
+    "hook_event_name": "Stop",
+    "stop_hook_active": false
   }
 ]

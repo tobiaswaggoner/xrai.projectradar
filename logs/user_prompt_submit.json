@@ -12,5 +12,26 @@
     "cwd": "/home/tobias/src/xrai/xrai.projectradar",
     "hook_event_name": "UserPromptSubmit",
     "prompt": "Hello again!"
+  },
+  {
+    "session_id": "82ea036f-e529-4e0e-b323-2295e097c61d",
+    "transcript_path": "/home/tobias/.claude/projects/-home-tobias-src-xrai-xrai-projectradar/82ea036f-e529-4e0e-b323-2295e097c61d.jsonl",
+    "cwd": "/home/tobias/src/xrai/xrai.projectradar",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/plan:plan-next-phase "
+  },
+  {
+    "session_id": "82ea036f-e529-4e0e-b323-2295e097c61d",
+    "transcript_path": "/home/tobias/.claude/projects/-home-tobias-src-xrai-xrai-projectradar/82ea036f-e529-4e0e-b323-2295e097c61d.jsonl",
+    "cwd": "/home/tobias/src/xrai/xrai.projectradar",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/plan:plan-next-step "
+  },
+  {
+    "session_id": "f428e254-ce6b-452d-bf0c-2bd9fd6da80a",
+    "transcript_path": "/home/tobias/.claude/projects/-home-tobias-src-xrai-xrai-projectradar/f428e254-ce6b-452d-bf0c-2bd9fd6da80a.jsonl",
+    "cwd": "/home/tobias/src/xrai/xrai.projectradar",
+    "hook_event_name": "UserPromptSubmit",
+    "prompt": "/plan:execute-next-step "
   }
 ]

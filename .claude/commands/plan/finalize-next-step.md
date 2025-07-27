@@ -16,8 +16,10 @@ We now need to verify the changes and commit them to git if all seems OK.
 
 5. Run all unit tests and ensure that they pass
 
-6. Update @aidocs/implementation-plan/implementation-history.md. Add a section for this iteration
+6. Update @aidocs/implementation-plan/implementation-history.md. Add a section for this iteration. Add all major changes.
 
 7. commit and push all changes to the current branch using a multiline commit message that summarizes the changes.
 
-8. Only if successful: checkout the main branch and fetch all changes
+8. Create a pull request to merge the new branch to main.
+
+9. Only if successful: checkout the main branch and fetch all changes
