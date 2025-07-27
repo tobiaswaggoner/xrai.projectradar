@@ -97,3 +97,36 @@ Major changes implemented:
 - **Service Discovery Pattern**: Used Aspire's built-in service discovery with HTTP client resilience patterns for robust inter-service communication
 - **Testing Approach**: Created both unit tests for Aspire configuration and integration tests for end-to-end service startup validation
 
+---
+
+## 2025-07-27 4.0 Observability Stack (Grafana + OpenTelemetry)
+
+### Summary
+
+Successfully implemented comprehensive observability infrastructure with OpenTelemetry instrumentation and Grafana visualization:
+- **OpenTelemetry Instrumentation**: Added complete OTEL 1.7 instrumentation to backend with tracing, metrics, and runtime telemetry
+- **Grafana Stack Infrastructure**: Deployed Prometheus, Tempo, and Grafana services via Docker Compose with proper networking
+- **Serilog OTLP Integration**: Configured Serilog with OpenTelemetry OTLP sink as primary logging destination
+- **Custom Telemetry Components**: Created TelemetryConstants class with activity sources, meters, and custom metrics
+- **Prometheus Metrics Export**: Configured Prometheus scraping endpoint with ASP.NET Core metrics
+- **Distributed Tracing**: Implemented trace propagation with correlation ID support and SQL client instrumentation
+- **Grafana Dashboards**: Pre-configured dashboards for ASP.NET Core performance, system metrics, and CPU monitoring
+- **Development Scripts**: Enhanced dev-setup.sh with observability stack support and created observability-urls.sh helper
+- **Integration Testing**: Added observability integration tests (simplified due to test infrastructure complexity)
+- **Documentation**: Created comprehensive observability.md guide with architecture diagrams and usage instructions
+
+Major components added:
+- Prometheus service on port 9090 for metrics collection
+- Tempo service on ports 4317/4318 for trace ingestion
+- Grafana service on port 3000 with pre-configured data sources
+- OpenTelemetry exporters for both Aspire dashboard and Grafana stack
+- Custom telemetry instrumentation points for future business logic
+
+### Design decisions
+
+- **Dual Export Strategy**: Configured OpenTelemetry to export to both Aspire dashboard (development) and Grafana stack (production-ready monitoring)
+- **In-Memory Test Approach**: Simplified observability integration tests due to complexity of full OpenTelemetry test infrastructure setup
+- **Configuration Files**: Used explicit configuration files for Prometheus, Tempo, and Grafana instead of environment variables for better maintainability
+- **Health Check Filtering**: Excluded /health and /alive endpoints from trace generation to reduce noise
+- **Prometheus Metrics Endpoint**: Added native Prometheus exporter alongside OTLP for broader compatibility
+

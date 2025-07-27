@@ -136,7 +136,30 @@ wait_for_services() {
             rabbitmq_healthy=false
         fi
         
-        if [ "$postgres_healthy" = true ] && [ "$rabbitmq_healthy" = true ]; then
+        # Check Prometheus health
+        if docker exec projectradar-prometheus wget --no-verbose --tries=1 --spider http://localhost:9090/-/healthy &> /dev/null; then
+            prometheus_healthy=true
+        else
+            prometheus_healthy=false
+        fi
+        
+        # Check Tempo health
+        if docker exec projectradar-tempo wget --no-verbose --tries=1 --spider http://localhost:3200/ready &> /dev/null; then
+            tempo_healthy=true
+        else
+            tempo_healthy=false
+        fi
+        
+        # Check Grafana health
+        if docker exec projectradar-grafana wget --no-verbose --tries=1 --spider http://localhost:3000/api/health &> /dev/null; then
+            grafana_healthy=true
+        else
+            grafana_healthy=false
+        fi
+        
+        if [ "$postgres_healthy" = true ] && [ "$rabbitmq_healthy" = true ] && 
+           [ "$prometheus_healthy" = true ] && [ "$tempo_healthy" = true ] && 
+           [ "$grafana_healthy" = true ]; then
             log_info "All services are healthy!"
             return 0
         fi
@@ -147,6 +170,18 @@ wait_for_services() {
         
         if [ "$rabbitmq_healthy" = false ]; then
             log_warn "RabbitMQ is not ready yet..."
+        fi
+        
+        if [ "$prometheus_healthy" = false ]; then
+            log_warn "Prometheus is not ready yet..."
+        fi
+        
+        if [ "$tempo_healthy" = false ]; then
+            log_warn "Tempo is not ready yet..."
+        fi
+        
+        if [ "$grafana_healthy" = false ]; then
+            log_warn "Grafana is not ready yet..."
         fi
         
         sleep 5
@@ -177,6 +212,14 @@ show_service_info() {
     echo "  Username: projectradar_user"
     echo "  Password: (stored in dev-secrets/rabbitmq.conf)"
     echo ""
+    echo "Observability Stack:"
+    echo "  Grafana: http://localhost:3000 (admin/admin)"
+    echo "  Prometheus: http://localhost:9090"
+    echo "  Tempo: http://localhost:3200 (query endpoint)"
+    echo "  OTLP Endpoints:"
+    echo "    - gRPC: localhost:4317"
+    echo "    - HTTP: localhost:4318"
+    echo ""
     echo "Docker Commands:"
     echo "  To stop the services: docker-compose down"
     echo "  To view logs: docker-compose logs -f"
@@ -191,6 +234,9 @@ show_service_info() {
         echo ""
         echo "  This will start all services with the Aspire dashboard and provide"
         echo "  integrated logging, metrics, and distributed tracing."
+        echo ""
+        echo "  Note: Traces and metrics will be visible in both Aspire dashboard"
+        echo "  and Grafana dashboards."
         echo ""
     fi
 }

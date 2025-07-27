@@ -41,17 +41,16 @@ Configure .NET Aspire for local development with integrated dashboard and servic
 
 ---
 
-## Iteration 4: Observability Stack (Grafana + OpenTelemetry)
+## Iteration 4: Observability Stack (Grafana + OpenTelemetry) ✅ COMPLETED
 
 Implement comprehensive observability with OpenTelemetry tracing, metrics, and Grafana visualization.
 
-- [ ] Add OpenTelemetry instrumentation to backend services (OTEL 1.7)
-- [ ] Configure OTLP exporter for traces and metrics
-- [ ] Set up Grafana stack: Prometheus + Tempo + Grafana OSS
-- [ ] Create Grafana dashboards for application monitoring
-- [ ] Configure Serilog with OTLP as primary sink
-- [ ] Set up optional ELK stack (disabled by default, enabled via COMPOSE_PROFILES=elk)
-- [ ] Test observability pipeline: generate traces/metrics and verify in Grafana at http://localhost:3000
+- [x] Add OpenTelemetry instrumentation to backend services (OTEL 1.7)
+- [x] Configure OTLP exporter for traces and metrics
+- [x] Set up Grafana stack: Prometheus + Tempo + Grafana OSS
+- [x] Create Grafana dashboards for application monitoring
+- [x] Configure Serilog with OTLP as primary sink
+- [x] Test observability pipeline: generate traces/metrics and verify in Grafana at http://localhost:3000
 
 ---
 

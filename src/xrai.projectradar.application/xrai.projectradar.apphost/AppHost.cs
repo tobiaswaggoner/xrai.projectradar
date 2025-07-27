@@ -15,6 +15,8 @@ var rabbitmq = builder.AddRabbitMQ("rabbitmq")
 // Add backend project with references to PostgreSQL and RabbitMQ
 var backend = builder.AddProject<Projects.xrai_projectradar_backend>("backend")
     .WithReference(projectradarDb)
-    .WithReference(rabbitmq);
+    .WithReference(rabbitmq)
+    .WithExternalHttpEndpoints()
+    .WithEnvironment("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4317");
 
 builder.Build().Run();
