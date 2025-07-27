@@ -1,6 +1,6 @@
 # Project Radar
 
-> **🚧 Early Development Phase**: This project is currently in the architecture and planning stage. Implementation has not yet begun.
+> **🚧 Phase 0 Complete**: Foundation & scaffolding implemented. .NET 8 solution structure with build/test pipeline is ready. Next: Infrastructure & Docker setup.
 
 An intelligent platform for freelancers and contractors to capture, evaluate, and track project opportunities using AI-powered analysis.
 
@@ -43,7 +43,7 @@ Project Radar is built as a **reactive, message-driven microservice architecture
 
 ## 🚀 Getting Started
 
-> **Note**: Since the project is in early development, these commands are planned but not yet implemented.
+The .NET 8 solution structure is now implemented and ready for development.
 
 ### Prerequisites
 
@@ -58,10 +58,17 @@ Project Radar is built as a **reactive, message-driven microservice architecture
 git clone https://github.com/tobiaswaggoner/xrai.projectradar.git
 cd xrai.projectradar
 
-# Start all services with live-reload
+# Navigate to solution and build
+cd src/xrai.projectradar.application
+dotnet build
+
+# Run tests to verify setup
+dotnet test
+
+# Start all services with live-reload (future)
 dotnet aspire run
 
-# Alternative: Use Docker Compose directly
+# Alternative: Use Docker Compose directly (future)
 docker-compose up -d
 ```
 

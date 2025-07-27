@@ -41,10 +41,12 @@ This is a **reactive, message-driven microservice architecture** built on:
 
 ## Development Setup
 
-Since this is an early-stage project, actual build/test commands are not yet established. The project will use:
+The project now has a working .NET 8 solution structure with established build/test commands:
 
+- **Build**: `dotnet build` (from solution root: `src/xrai.projectradar.application/`)
+- **Test**: `dotnet test` (runs all NUnit tests with NSubstitute mocking)
 - **dotnet Aspire**: Run `dotnet aspire run` to start all services with live-reload
-- **Docker Compose**: Single-command setup for development environment
+- **Docker Compose**: Single-command setup for development environment (planned)
 - **Secrets Management**: Docker Secrets (no plain-text env files)
 
 ## User Workflow
@@ -97,4 +99,12 @@ The UI consists of three main areas:
 
 ## Current Status
 
-This is a **planning/architecture phase project**. No actual code implementation exists yet - the repository contains only documentation and architectural specifications. Future development will follow the reactive microservices architecture outlined above.
+The project has completed **Phase 0 (Foundation & Scaffolding)**. A complete .NET 8 solution structure is now implemented with:
+
+- Main solution: `src/xrai.projectradar.application/xrai.projectradar.application.sln`
+- ASP.NET Core Web API backend project with basic health endpoint
+- NUnit test project with NSubstitute framework and passing tests
+- .NET Aspire AppHost project for development orchestration
+- Proper solution folder organization ("tests", "dev")
+
+**Next Phase**: Infrastructure & Docker Setup, then UI/UX Prototyping. Future development will follow the reactive microservices architecture outlined above.
